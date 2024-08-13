@@ -13,6 +13,12 @@ function toggle_dark_mode(isEnabled) {
 }
 
 function update_color_scheme(isEnabled) {
+    let icon = document.getElementById("icon");
+    if (isEnabled) {
+        icon.setAttribute("href", "/res/icon-transparent-square-inverted.svg?raw=true");
+    } else {
+        icon.setAttribute("href", "/res/icon-transparent-square.svg?raw=true");
+    }
     const cell     = document.getElementById("switch").parentElement.parentElement;
     cell.className = cell.className.substring(0, 23) + isEnabled;
 }
