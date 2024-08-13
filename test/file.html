@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script type="module">
+      import { Octokit } from "https://esm.sh/@octokit/core";
+    </script>
+    <script>
+      function functionToExecute() {
+        console.log("HELLO")
+        // Octokit.js
+        // https://github.com/octokit/core.js#readme
+        const octokit = new Octokit({
+          auth: ${{ secrets.POST_KEY }}
+        })
+        
+        await octokit.request('POST /repos/{owner}/{repo}/dispatches', {
+          owner: 'chriso345',
+          repo: 'github-actions',
+          event_type: 'do-something',
+          client_payload: {
+            unit: false,
+            integration: true
+          },
+          headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+          }
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="functionToExecute()">
+      CLICK ME
+    </button>
+  </body>
+</html>
