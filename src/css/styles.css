@@ -327,3 +327,40 @@ a {
     border: 3px solid sandybrown;
     /*transition: var(--standard-transition);*/
 }
+
+#switch {
+    --dark-mode-switch-light-color: #f7f9fb;
+    --dark-mode-switch-dark-color: #1b1c1d;
+    /*height: 100px;*/
+    /*padding: 20px;*/
+    /*margin: 10px;*/
+}
+
+.cell-dark-mode-enabled-true, .cell-dark-mode-enabled-false {
+    --dark-mode-switch-duration: 0.2s;
+    --dark-mode-switch-interpolation: cubic-bezier(0.66, 0, 0.33, 1);
+    display: grid;
+    grid-template-rows: 40px auto;
+    transition: background-color var(--dark-mode-switch-duration) var(--dark-mode-switch-interpolation);
+}
+
+:root:has(.cell-dark-mode-enabled-false) {
+    --default-text: var(--light-text);
+    --default-bg: var(--light-bg);
+    --default-github-invert: var(--light-github-invert);
+    --default-symbol: var(--dark-bg);
+    --default-toggle-icon: var(--light-toggle-icon);
+}
+
+:root:has(.cell-dark-mode-enabled-true) {
+    --default-text: var(--dark-text);
+    --default-bg: var(--dark-bg);
+    --default-github-invert: var(--dark-github-invert);
+    --default-symbol: var(--light-bg);
+    --default-toggle-icon: var(--dark-toggle-icon);
+}
+.centering-container {
+    display: flex;
+    align-items: center;
+    width: 25px;
+}

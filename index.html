@@ -8,15 +8,22 @@
     <link rel="icon" href="res/icon-logo-square-transparent.png?raw=true" type="image/icon type" id="icon">
 
     <script src="src/javascript/index.js"></script>
+    <script type="module" src="src/javascript/dark-mode-switch.js"></script>
     <link rel="stylesheet" type="text/css" href="src/css/styles.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap" rel="stylesheet">
 </head>
 <body style="cursor: default; overflow-y: hidden;" onload="run_on_load()">
+<script>
+
+</script>
     <div class="Header" data-component="Header">
-        <input type="checkbox" id="theme-switch" onclick="toggle_dark_mode()">
-        <label for="theme-switch" class="switch-label"><img src="res/sun-fill.svg" alt="light mode"></label>
+        <div class="cell-dark-mode-enabled-true">
+            <div class="centering-container">
+                <dark-mode-switch id="switch" onchange="update_color_scheme(event.detail.enabled)" enabled></dark-mode-switch>
+            </div>
+        </div>
     </div>
     <div class="Menu" data-component="Menu">
         <nav>
