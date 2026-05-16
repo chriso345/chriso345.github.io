@@ -1,0 +1,6 @@
+#ifndef COMPONENTS_DARK_MODE_TOGGLE_H
+#define COMPONENTS_DARK_MODE_TOGGLE_H
+
+void DarkModeToggle(void);
+
+#endif // COMPONENTS_DARK_MODE_TOGGLE_H

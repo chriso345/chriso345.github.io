@@ -1,0 +1,6 @@
+#ifndef COMPONENTS_HERO_SECTION_H
+#define COMPONENTS_HERO_SECTION_H
+
+void HeroSection(void);
+
+#endif // COMPONENTS_HERO_SECTION_H
