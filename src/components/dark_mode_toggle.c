@@ -1,11 +1,13 @@
 #include "../../vendor/clay.h"
 
 #include "../theme.h"
+#include "../utils.h"
 #include "dark_mode_toggle.h"
 
 static void HandleThemeToggle(Clay_ElementId id, Clay_PointerData ptr,
                               void *ud) {
   if (ptr.state == CLAY_POINTER_DATA_PRESSED_THIS_FRAME) {
+    JS_LOG("Toggling dark mode");
     USING_DARK_MODE = !USING_DARK_MODE;
   }
 }

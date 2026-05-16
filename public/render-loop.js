@@ -403,6 +403,17 @@ export function renderLoopHTML({
             }
         }
     }
+    // Attach dark mode toggle event listener after render
+    const toggle = document.getElementById('ToggleOuter');
+    if (toggle && !toggle.hasToggleListener) {
+        toggle.addEventListener('pointerdown', () => {
+            // Simulate Clay pointer event for dark mode toggle
+            window.mouseDownThisFrame = true;
+        });
+        toggle.hasToggleListener = true;
+        toggle.style.pointerEvents = 'all';
+        toggle.style.cursor = 'pointer';
+    }
     for (const key of Object.keys(elementCache)) {
         if (elementCache[key].exists) {
             elementCache[key].exists = false

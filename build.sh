@@ -21,7 +21,7 @@ log_build() {
 
 init() {
   log_init "Ensuring directories..."
-  mkdir -p build/wasm
+  mkdir -p build
   mkdir -p vendor
 
   if [ ! -f "$CLAY_DEST" ]; then
@@ -35,6 +35,9 @@ init() {
 build() {
   log_build "Compiling WASM..."
 
+  rm -rf build/public
+  cp -r public build/public
+
   SRC_FILES=$(find src -type f -name '*.c')
 
   clang \
@@ -45,13 +48,10 @@ build() {
     -Wl,--export=__heap_base \
     -Wl,--export=USING_DARK_MODE \
     -Wl,--initial-memory=6553600 \
-    -o build/wasm/index.wasm \
+    -o build/public/index.wasm \
     $SRC_FILES
 
   cp index.html build/index.html
-
-  rm -rf build/public
-  cp -r public build/public
 
   log_build "Done"
 }

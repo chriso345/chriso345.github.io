@@ -35,6 +35,63 @@ export async function wasmInit(
         }, 10)
     })
 
+    // --- Pointer and keyboard event logic from working version ---
+    function handleTouch(event) {
+        if (event.touches.length === 1) {
+            window.touchDown = true
+            let target = event.target
+            let scrollTop = 0
+            let scrollLeft = 0
+            while (target) {
+                scrollLeft += target.scrollLeft || 0
+                scrollTop += target.scrollTop || 0
+                target = target.parentElement
+            }
+            window.mousePositionXThisFrame =
+                event.changedTouches[0].pageX + scrollLeft
+            window.mousePositionYThisFrame =
+                event.changedTouches[0].pageY + scrollTop
+        }
+    }
+    document.addEventListener('touchstart', handleTouch)
+    document.addEventListener('touchmove', handleTouch)
+    document.addEventListener('touchend', () => {
+        window.touchDown = false
+        window.mousePositionXThisFrame = 0
+        window.mousePositionYThisFrame = 0
+    })
+    document.addEventListener('mousemove', (event) => {
+        let target = event.target
+        let scrollTop = 0
+        let scrollLeft = 0
+        while (target) {
+            scrollLeft += target.scrollLeft || 0
+            scrollTop += target.scrollTop || 0
+            target = target.parentElement
+        }
+        window.mousePositionXThisFrame = event.x + scrollLeft
+        window.mousePositionYThisFrame = event.y + scrollTop
+    })
+    document.addEventListener('mousedown', (event) => {
+        window.mouseDown = true
+        window.mouseDownThisFrame = true
+    })
+    document.addEventListener('mouseup', (event) => {
+        window.mouseDown = false
+    })
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowDown') {
+            window.arrowKeyDownPressedThisFrame = true
+        }
+        if (event.key === 'ArrowUp') {
+            window.arrowKeyUpPressedThisFrame = true
+        }
+        if (event.key === 'd') {
+            window.dKeyPressedThisFrame = true
+        }
+    })
+    // --- End pointer/keyboard logic ---
+
     let textDecoder = new TextDecoder('utf-8')
     let previousFrameTime
     let renderCommandSize = 0
@@ -124,7 +181,7 @@ export async function wasmInit(
     }
 
     const wasmResponse = await WebAssembly.instantiateStreaming(
-        fetch('/wasm/index.wasm'),
+        fetch('/public/index.wasm'),
         importObject
     )
     instance = wasmResponse.instance
