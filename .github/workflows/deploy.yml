@@ -1,55 +1,55 @@
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+    push:
+        branches:
+            - master
+    pull_request:
+        branches:
+            - master
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+    contents: read
+    pages: write
+    id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+    group: 'pages'
+    cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  submodules: recursive
 
-      - name: Install clang + wasm tools
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang lld
+            - name: Install clang + wasm tools
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y clang lld
 
-      - name: Build WASM
-        run: |
-          chmod +x build.sh
-          ./build.sh
+            - name: Build WASM
+              run: |
+                  chmod +x build.sh
+                  ./build.sh
 
-      - name: Upload Pages artifact
+            - name: Upload Pages artifact
+              if: github.event_name == 'push'
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: ./build
+
+    deploy:
+        needs: build
+        runs-on: ubuntu-latest
         if: github.event_name == 'push'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./build
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - name: Deploy to GitHub Pages
+              id: deployment
+              uses: actions/deploy-pages@v4
